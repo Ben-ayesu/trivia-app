@@ -58,8 +58,8 @@ export class TriviaApi{
     async getTriviaQuestion(category, difficulty, questionType) {
         try {
             const response = await axios.get(this.getQuery(1, category, difficulty, questionType));
-            console.log(response); // should return a promise
-            console.log(response.data); // should return array of question objects
+            console.log('response in getTriviaQuestion:', response); // should return a promise
+            console.log('response.data in getTriviaQuestion:', response.data); // should return array of question 
             return response.data;
         } catch (error) {
             console.log(`Catching error from api call`, error);

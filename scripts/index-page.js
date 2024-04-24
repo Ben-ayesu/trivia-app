@@ -24,9 +24,10 @@ console.log("Hello trivia");
 
 const triviaApi = new TriviaApi();
 const questionListEl = document.querySelector(".questions-list");
-const answersListEl = document.querySelector(".inputs__btn");
+const answersListEl = document.querySelectorAll(".inputs__btn");
 const balanceDisplayEl = document.querySelector(".player-balance");
-const arrayOfQuestions = new Array;
+let count = 0;
+
 // Create and set element function
 const createElement = (element, elementClass) => {
     const createdElement = document.createElement(element);
@@ -35,7 +36,7 @@ const createElement = (element, elementClass) => {
 }
 
 // question object
-class Question{
+// class Question{
     // // super basic constructor with just question, answer and array of incorrect answers
     // constructor(question,correct,incorrect){
     //     this.question = question; // string of questions
@@ -43,15 +44,15 @@ class Question{
     //     this.incorrect = incorrect;// array with 3 elements of strings
 
     // }
-    // more advanced constructor with type, difficulty,category,question,correct_answer, incorrect_answer
-    constructor(type, difficulty,category,question,correct_answer, incorrect_answer){
-        this.type = type;
-        this.difficulty = difficulty;
-        this.category = category;
-        this.question = question;
-        this.correct = correct_answer;
-        this.incorrect = incorrect_answer;
-    }
+    // more advanced constructor with type, difficulty,question,correct_answer, incorrect_answer
+    // constructor(type, difficulty,category,question,correct_answer, incorrect_answer){
+    //     this.type = type;
+    //     this.difficulty = difficulty;
+    //     this.category = category;
+    //     this.question = question;
+    //     this.correct = correct_answer;
+    //     this.incorrect = incorrect_answer;
+    // }
     
     // process raw data straight from the api
 
@@ -111,50 +112,38 @@ class Question{
     //     //     }
     //     // }
     // }
-
-    toString(){
-        return 
-        "question is"+
-        this.question 
-        "answer is"+
-        this.answer;
-        
-    }
+//}
+    // qtoString(){
+    //     return this.question;
+    // }
 
     // takes a string of input
     // return a boolean of whether or not the answer is correct
-    checkAnswerCorrect(input){
-        if(this.answer === input){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
     
     // Updates balance value depending on correct answer & changes the color green or red depending on correct or incorrect value
-    updateAndDisplayBalance() {
-        const balance = 100000;
+    function updateAndDisplayBalance() {
+        const balance = 0;
         const submittedElement = document.querySelector(".inputs__btn");
         if (this.checkAnswerCorrect(input) === true) {
-            balance += 1000000;
+            balance += 100000;
             submittedElement = document.querySelector.remove(".inputs__btn");
             submittedElement = document.querySelector.add(".inputs__correct")
         } else {
-            balance -= 1000;
+            balance -= 100000;
             submittedElement = document.querySelector.remove(".inputs__btn");
             submittedElement = document.querySelector.add(".inputs__incorrect")
         }
         document.querySelector(".player-balance") = balance;
     }
-}
+
 
 // display function for single question
-async function displaySingleQuestion(questions, index) {
+async function displaySingleQuestion() {
     try {
+        const question = triviaApi.getTriviaQuestion(9, 'easy', 'multiple');
         const questionCardEl = createElement("div", "question__card") // create card element to contain (title, question, answers)
         const questionEl = createElement("li", "question__card-content"); // create li element -> for question
-        questionEl.innerText = questions[index].question; // set inner li to question property of object
+        questionEl.innerText = question.question; // set inner li to question property of object
         // questionInputEl. innerText = question.incorrect_answers; // set button text to value property of object incorrect answer
         questionListEl.append(questionEl);
     } catch (error) {
@@ -162,36 +151,38 @@ async function displaySingleQuestion(questions, index) {
     }
 }
 // display function
-async function displayQuestion(question) {
+async function displayQuestion() {
+    // for each question object
+    const questions = await triviaApi.getTriviaQuestion(9, 'easy', 'multiple'); // it gets 50 questions if i just request 1???
+    const singleQuestion = questions.results[0];
+    console.log("Question in displayQuestion:", singleQuestion);
+    const questionCardEl = createElement("li", "question__card") // create card element to contain (question)
+    const questionEl = createElement("p", "question__card-content"); // create li element -> for question
+    questionEl.innerText = singleQuestion.question; // set inner li to question property of object
+    questionCardEl.append(questionEl);
+    questionListEl.append(questionCardEl); // append card with question to list 
     try {
-        // loop through array of question objects
-        question.forEach((question) => {
-            // for each question object
-            const questionCardEl = createElement("div", "question__card") // create card element to contain (title, question)
-            const questionEl = createElement("li", "question__card-content"); // create li element -> for question
-            console.log("Error in line 165 display function",question);
-            questionEl.innerText = question.question; // set inner li to question property of object
-            questionCardEl.append(questionEl);
-        }) 
+        const allInputBtns = document.querySelectorAll('.inputs__btn');
+        console.log('allinputs', allInputBtns);
+        console.log('incorrect answers', singleQuestion.incorrect_answers);
+
+        // random population of buttons
+        const allAnswers = [...singleQuestion.incorrect_answers, singleQuestion.correct_answer];
+        console.log('all answers', allAnswers);
+        for(let i = allAnswers.length-1;i>=0;i--){
+            let removed = allAnswers.splice(Math.floor(Math.random()*allAnswers.length), 1);
+            allInputBtns[i].innerText = removed[0];
+        }
+
+        // non random population of buttons
+        // for (let i=0; i<singleQuestion.incorrect_answers.length; i++) {
+        //     allInputBtns[i].innerText = singleQuestion.incorrect_answers[i];
+        // }
+        // allInputBtns[allInputBtns.length-1].innerText = singleQuestion.correct_answer;
     } catch (error) {
         console.log(error);
     }
 }
-
-// test call to console
-async function testcall(){
-    try {
-        const questions = await triviaApi.getTrivia(); // gets questions from api call
-        console.log("Questions in testcall():", questions.results); // returning array of question object 
-        await displayQuestions(questions.results[0]);
-    } catch (error) {
-        console.log(`error from test`,error);
-    }
-}
-
-// call test
-// testcall();
-
 
 async function displayIncorrectAnswers(incorrect_answers) {
     try {
@@ -206,6 +197,16 @@ async function displayIncorrectAnswers(incorrect_answers) {
     }
 }
 
+async function testcall() {
+    try {
+        const incorrect_answers = await triviaApi.getTrivia();
+        console.log("questions", incorrect_answers.results);
+    } catch (error) {
+        console.log("error from test2", error)
+    }
+}
+
+
 async function testcall2() {
     try {
         const incorrect_answers = await triviaApi.getTrivia();
@@ -216,25 +217,30 @@ async function testcall2() {
 }
 
 // testcall2()
-async function testcall3() {
-    try {
 
-        const questions = await triviaApi.getTrivia(); // gets questions from api call
-        console.log("Questions in testcall():", questions.results);
 
-        for(let i =0; i< 10;i++){
-            rrayOfQuestions.push(new Question(questions.results[i].type,questions.results[i].type,questions.results[i].type,questions.results[i].type,questions.results[i].type,));
-            console.log(questions.results[i]);
-        }
-        
-        console.log(questions.results[0].type);
-        let test = new Question(questions.results[0]);
-        console.log(test.toString());
-    } catch (error) {
-        console.log("error from test2", error)
-    }
+// submit button
+const selectButton = () => {
+    console.log("inside select button list of buttons",answersListEl);
+    answersListEl.forEach((answer) => {
+        console.log('current answer', answer);
+        answer.addEventListener("click", async (event) => {
+            event.preventDefault();
+            // alert("Button works");
+            try {
+                await displayQuestion();
+            } catch (error) {
+                console.log("Could not display next question", error);
+            }
+
+        })
+    })
 }
-testcall3();
+
+function updateProgressBar(){
+    let progressBar = document.querySelector(".progress_bar__progress");
+    progressBar.style.width = count*10 + "%";
+}
 
 
 // main point of execution
@@ -242,12 +248,15 @@ function main () {
     console.log('Running main()...');
     // step 0 - default loadout?
     // step 1 - display start page?, wait for user to press start
-    // step 2 - get questions
-        const question = triviaApi.getTriviaQuestion(9, 'easy', 'multiple');
-        console.log('Questions received in main():', question);
-        
+    
+    // step 2 - get question
     // step 3 - display question
+    displayQuestion();
+    selectButton(); //set up event listeners
+    updateProgressBar();
+
     // step 4 - get answer from user
+        
     // step 5 - update settings/display
     // step 6 - loop back to step 3 until no questions left
     // step 7 - display game results
