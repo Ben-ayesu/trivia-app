@@ -1,87 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trivia App</title>
-    <link rel="stylesheet" href="./styles/main.css" />
-  </head>
-  <body>
-    <h1 class="game-title">Who Want's To Be a Trillionaire?</h1>
 
-    <section class="question-container">
-      <ul class="questions-list"></ul>
-    </section>
-    <section class="inputs">
-      <div class="inputs__row">
-        <button type="submit" class="inputs__btn inputs__btn--answer1">
-          TEST ANSWER 1
-        </button>
-        <button type="submit" class="inputs__btn inputs__btn--answer2">
-          TEST ANSWER 2
-        </button>
-      </div>
-      <div class="inputs__row">
-        <button type="submit" class="inputs__btn inputs__btn--answer3">
-          TEST ANSWER 3
-        </button>
-        <button type="submit" class="inputs__btn inputs__btn--answer4">
-          TEST ANSWER 4
-        </button>
-      </div>
-    </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trivia App</title>
+  <link rel="stylesheet" href="./styles/main.css" />
+</head>
 
-    <!-- <h2 class="player-balance">$0.00</h2> -->
-    <section class="progress-section">
-      <h3 class="progress_bar-label">PROGRESS:</h3>
-      <div class="progress_bar">
-        <div class="progress_bar__progress"></div>
-      </div>
-    </section>
-    <!-- <iframe
-      class="music-player"
-      width="100%"
-      height="166"
-      scrolling="no"
-      frameborder="no"
-      allow="autoplay"
-      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/928015675&color=%23ffffff&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-    ></iframe>
-    <div
-      style="
-        font-size: 10px;
-        color: #cccccc;
-        line-break: anywhere;
-        word-break: normal;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans,
-          Garuda, Verdana, Tahoma, sans-serif;
-        font-weight: 100;
-      "
-    >
-      <a
-        href="https://soundcloud.com/keithstrachan"
-        title="Keith Strachan"
-        target="_blank"
-        style="color: #cccccc; text-decoration: none"
-        >Keith Strachan</a
-      >
-      ·
-      <a
-        href="https://soundcloud.com/keithstrachan/opening-theme"
-        title="Opening Theme"
-        target="_blank"
-        style="color: #cccccc; text-decoration: none"
-        >Opening Theme</a
-      >
-    </div> -->
+<body>
+  <h1 class="game-title">Who Want's To Be a Trillionaire?</h1>
 
-    <script
-      src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"
-      type="module"
-    ></script>
-    <script src="./scripts/index-page.js" type="module"></script>
-  </body>
+  <section class="question-container">
+    <ul class="questions-list"></ul>
+  </section>
+  <section class="inputs">
+    <div class="inputs__row">
+      <button type="submit" class="inputs__btn inputs__btn--answer1">
+      </button>
+      <button type="submit" class="inputs__btn inputs__btn--answer2">
+      </button>
+    </div>
+    <div class="inputs__row">
+      <button type="submit" class="inputs__btn inputs__btn--answer3">
+      </button>
+      <button type="submit" class="inputs__btn inputs__btn--answer4">
+      </button>
+    </div>
+  </section>
+
+  <h2 class="player-balance">$0.00</h2>
+  <section class="progress-section">
+    <h3 class="progress_bar-label">PROGRESS:</h3>
+    <div class="progress_bar">
+      <div class="progress_bar__progress"></div>
+    </div>
+  </section>
+  <iframe class="music-player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/928015675&color=%23ffffff&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+  <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js" type="module"></script>
+  <script src="./scripts/index-page.js" type="module"></script>
+</body>
+
 </html>
