@@ -17,7 +17,7 @@ const createElement = (element, elementClass) => {
 
 // Updates balance value depending on correct answer & changes the color green or red depending on correct or incorrect value
 function updateAndDisplayBalance() {
-  balanceDisplayEl.innerText = balance;
+  balanceDisplayEl.innerText = `Balance: ${balance}`;
 }
 
 // display function
@@ -84,15 +84,6 @@ const selectButton = () => {
             formatCorrectAnswer === formatSelectedAnswer
           }`
         );
-        console.log(
-          "format selected answer in event listener:",
-          formatSelectedAnswer
-        );
-        console.log(
-          "format correct answer in event listener:",
-          formatCorrectAnswer
-        );
-
         answerLogic(formatSelectedAnswer, formatCorrectAnswer); // check if they are equal
       } catch (error) {
         console.log("Could not display next question", error);
